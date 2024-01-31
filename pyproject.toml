@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "api"
+version = "0.1.0"
+repository = "https://github.com/rdeak/fastapi-websocket"
+description = "Websocket API"
+authors = ["Robert Deak <robert.deak@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+
+packages = [
+    { include = "api" }
+]
+
+[tool.poetry.scripts]
+start = "api.main:main"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+uvicorn = { version = "^0.27", extras = ["standard"] }
+fastapi = "^0.109"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
