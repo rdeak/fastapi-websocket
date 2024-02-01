@@ -11,6 +11,11 @@ active_connections: Dict[str, WebSocket] = {}
 async def incoming_message(websocket: WebSocket, token: str):
     await websocket.accept()
 
+    # validate token
+    if token == "1":
+        await websocket.close(code=4001, reason="Unauthenticated access")
+        return
+
     active_connections[token] = websocket
 
     try:
