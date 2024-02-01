@@ -6,6 +6,7 @@ Project uses [Poetry](https://python-poetry.org/)
 ## Installation
 
 ```bash
+poetry shell
 poetry install
 ```
 

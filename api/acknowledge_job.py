@@ -1,11 +1,11 @@
-from typing import Callable, Union, Coroutine
 from datetime import datetime
+from asyncio import sleep
 
-CallbackFn = Callable[[str], Coroutine[None, None, None]]
 
+async def acknowledge_job(payload: str) -> str:
+    print(f"{datetime.now()}: {payload}")
 
-async def acknowledge_job(payload: str, fn: CallbackFn) -> None:
-    print(f"{datetime.now()}:{payload}")
+    # replace with real business logic
+    await sleep(10)
 
-    await fn("ack response")
-
+    return "ack response"

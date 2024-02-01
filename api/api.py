@@ -7,23 +7,25 @@ app = FastAPI()
 active_connections: Dict[str, WebSocket] = {}
 
 
-@app.websocket("/ws/{user_id}")
-async def incoming_message(websocket: WebSocket, user_id: str):
+@app.websocket("/ws/{token}")
+async def incoming_message(websocket: WebSocket, token: str):
     await websocket.accept()
-    active_connections[user_id] = websocket
+
+    active_connections[token] = websocket
 
     try:
         while True:
             data = await websocket.receive_text()
 
-            await acknowledge_job(
-                data,
-                lambda message: send_response(user_id, message)
+            response = await acknowledge_job(
+                data
             )
+
+            await send_response(token, response)
     except WebSocketDisconnect:
-        del active_connections[user_id]
+        del active_connections[token]
 
 
-async def send_response(user_id: str, message: str):
-    if user_id in active_connections:
-        await active_connections[user_id].send_text(message)
+async def send_response(token: str, message: str):
+    if token in active_connections:
+        await active_connections[token].send_text(message)
